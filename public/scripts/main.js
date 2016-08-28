@@ -43,6 +43,7 @@ var addArticles2 = function(a){
 	var i = extraRows + a;
 	var displayArticles = articleArray2.slice(extraRows,i);
 	$("tbody").append(displayArticles);
+	
 };
 
 
@@ -64,10 +65,13 @@ var loadSet2 = function(){
 		}
 		addArticles2(load);
 	});
+	window.setTimeout(updateSortTable, 1000)
 };
 
 var moreButton = function(){
 	$("#btnLoadMore").click(function(){
+		updateSortTable();
+
 		visibleRows = $('#articlesTable>tbody>tr:visible').length;
 		extraRows = $('#articlesTable>tbody>tr.extra:visible').length;
 		var maxArticles = articleCount - load; // defines second to last load
@@ -91,13 +95,38 @@ var moreButton = function(){
 			addArticles2(load); 
 		}
 
-
-
 	});
 };
+// Sort Table; rows must be fully loaded
+var sortTable = function(){
+	$("#articlesTable").tablesorter({
+	  headers: { 
+	      // Disable first and second columns (starts at 0)
+/*	      0: { sorter: false }, 
+	      1: { sorter: false },
+	      2: { sorter: false }        */
+	  }
+	}); 	
+};
+// Trigger sort function when new data is added
+var updateSortTable = function(){
+	$("#articlesTable").trigger("update"); 
 
+  // bind to sort events
+  /*$("#articlesTable")
+    .bind("sortStart",function() {
+    	alert("start!");
+    })
+    .bind("sortEnd",function() {
+    	alert("end!");
+    });
+*/
+
+}
 
 
 // Initiate Functions
 initialLoad();
 moreButton();
+window.setTimeout(sortTable, 1000);
+

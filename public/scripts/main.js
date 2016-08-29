@@ -1,17 +1,20 @@
 /////////////////////////////
 ////    client side     ////
 ///////////////////////////
+
 var articleArray = [];
 var visibleRows = 0; // Visible rows in DOM
 var articleCount = 0; // Total number of articles from currently loaded data (updates as you load second json file)
 var extraRows = 0; // Additional rows from second file
-var load = 10; // Set number of articles to load at a time here
+var load = 10; // Set number of articles to load at a time
 
+// Total visible article rows and total extra rows
 var countRows = function(){
 	visibleRows = $('tr.row').length;
+	extraRows = $('tr.extra').length;	
 }
 
-// Add more articles from first file
+// Add articles from array
 var addArticles = function(a){
 	countRows();
 	var i = visibleRows + a;
@@ -19,16 +22,22 @@ var addArticles = function(a){
 	$("tbody").append(displayArticles);
 };
 
+// Build HTML article rows from data
 var buildRows = function(data, rowclass){
-	articleCount = articleCount + data.length; // initial: article count = 30; data.length = 30
-	// second: articleCount = 60;
+	articleCount = articleCount + data.length;
 	for(var i = 0; i < data.length; i++) { 
-		// initial: for i = 0 i < 30 
-		// second: for i = 0; i < 30
 		var count = i + 1;
+		var thumbnail;
+		if( data[i].image == "" || data[i].image == null ){
+			thumbnail = "./img/placeholderthumb.gif"; // if no image is available, use placeholder thumbnail
+		}
+		else{
+			thumbnail = data[i].image;
+		}
 		var tblRow = "<tr class='row " + rowclass + "'>" + 
 		"<td>" + count + "</td>" +			
-		"<td>" + data[i].title + "</td>" +
+		"<td><div class='thumbnailContainer'><a href='" + data[i].url + "' target='_blank'><img src='" +  thumbnail + "' alt='" + data[i].tags[0].name + "'></a></div> <a href='" + 
+		data[i].url + "' target='_blank'>" + data[i].title + "</a></td>" +
 		"<td>" + data[i].profile.first_name + " " + data[i].profile.last_name + "</td>" + 
 		"<td>" + data[i].words + "</td>" + 
 		"<td>" + data[i].publish_at + "</td>" +
@@ -58,8 +67,6 @@ var moreButton = function(){
 	$("#btnLoadMore").click(function(){
 		updateSortTable();
 		countRows();
-		extraRows = $('tr.extra').length;
-
 		var maxArticles = articleCount - load; // defines second to last load
 		
 		// Hide load more button if on the second to last load
@@ -69,27 +76,27 @@ var moreButton = function(){
 
 		// if initial data 
 		if ((visibleRows < articleCount) && ( extraRows == 0 )) { // if rows visible is less than file1 total, then keep adding from first file
-			console.log("more from first set");
+			//console.log("more from first set");
 			addArticles(load);
 			console.log(articleArray[40])
 
 		}
 		else if ((visibleRows = articleCount) && (extraRows == 0)) { // if  visible and equal to file1 total, then load next data
-			console.log("load second set");			
+			//console.log("load second set");			
 			loadSet2(); // after click: now visibleRows = 40; articleCount = 60;  extraRows = 10 
 
 		}
 		// if second set has been loaded but not more than total articles, show more from json file 2
 		else if ((visibleRows <= articleCount ) && (extraRows > 0) ) { // extraRows > 0 basically means the second set has been loaded
-			console.log("more from second set");			
+			//console.log("more from second set");			
 			addArticles(load); 
 		};
 
 	});
 };
-// Sort Table; rows must be fully loaded
-var sortTable = function(){
 
+// Sort Table; Rows must be fully loaded for function to work
+var sortTable = function(){
 	$("#articlesTable").tablesorter({
 	  headers: { 
 	      // Disable first and second columns (starts at 0)
@@ -108,4 +115,3 @@ var updateSortTable = function(){
 initialLoad();
 moreButton();
 window.setTimeout(sortTable, 1000);
-

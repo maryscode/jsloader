@@ -48,8 +48,6 @@ app.get('/', function(req, res) {
 	)
 });
 
-
-
 // second route
 app.get('/loadarticles', function(req, res){
 	convertDates(articleData1);

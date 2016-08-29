@@ -33,7 +33,7 @@ var convertDates = function(e){
 		var timeStamp = e[i].publish_at;
 		var timeString = String(timeStamp);
 		var timeAgo = moment(timeString, "YYYY-MM-DD h:mm:ss").fromNow();
-		e[i].publish_at = timeAgo;
+		e[i].time_ago = timeAgo;
 	}
 };
 

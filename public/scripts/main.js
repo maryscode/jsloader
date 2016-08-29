@@ -2,6 +2,9 @@
 ////    client side     ////
 ///////////////////////////
 
+
+
+
 var articleArray = [];
 var visibleRows = 0; // Visible rows in DOM
 var articleCount = 0; // Total number of articles from currently loaded data (updates as you load second json file)
@@ -20,13 +23,14 @@ var addArticles = function(a){
 	var i = visibleRows + a;
 	var displayArticles = articleArray.slice(visibleRows,i);
 	$("tbody").append(displayArticles);
+
 };
 
 // Build HTML article rows from data
 var buildRows = function(data, rowclass){
 	articleCount = articleCount + data.length;
 	for(var i = 0; i < data.length; i++) { 
-		var count = i + 1;
+
 		var thumbnail;
 		if( data[i].image == "" || data[i].image == null ){
 			thumbnail = "./img/placeholderthumb.gif"; // if no image is available, use placeholder thumbnail
@@ -35,16 +39,21 @@ var buildRows = function(data, rowclass){
 			thumbnail = data[i].image;
 		}
 		var tblRow = "<tr class='row " + rowclass + "'>" + 
-		"<td>" + count + "</td>" +			
 		"<td><div class='thumbnailContainer'><a href='" + data[i].url + "' target='_blank'><img src='" +  thumbnail + "' alt='" + data[i].tags[0].name + "'></a></div> <a href='" + 
 		data[i].url + "' target='_blank'>" + data[i].title + "</a></td>" +
 		"<td>" + data[i].profile.first_name + " " + data[i].profile.last_name + "</td>" + 
 		"<td>" + data[i].words + "</td>" + 
-		"<td>" + data[i].publish_at + "</td>" +
+		//"<td>" + data[i].publish_at + "</td>" +
+		"<td class='timeago'>" + data[i].time_ago + "</td>" +
+		"<td class='rawtime'>" + data[i].publish_at + "</td>" +
 		"</tr>"
+		
+	
 		articleArray.push(tblRow)
 	}
 }
+
+
 
 // Load the initial set of articles
 var initialLoad = function(){
@@ -98,17 +107,70 @@ var moreButton = function(){
 // Sort Table; Rows must be fully loaded for function to work
 var sortTable = function(){
 	$("#articlesTable").tablesorter({
-	  headers: { 
-	      // Disable first and second columns (starts at 0)
-	      0: { sorter: false }, 
-	      1: { sorter: false },
-	      2: { sorter: false }        
-	  }
-	}); 	
+		sortList: [[2,0]],
+		headers: { 
+			// Disable first and second columns (starts at 0)
+			0: { sorter: false }, 
+			1: { sorter: false },
+			3: { sorter: false }
+		}
+	}); 
+	
+	$("#header-timeago").click(function() { 
+        if( $(this).hasClass("ascending") ){
+	        // set sorting column and direction, this will sort on the first and third column the column index starts at zero 
+	        var sorting = [[4,1]]; 
+	        $("#articlesTable").trigger("sorton",[sorting]); 
+	        $(this).removeClass("ascending")
+	        return false;         	
+        }
+        else {
+	        // set sorting column and direction, this will sort on the first and third column the column index starts at zero 
+	        var sorting = [[4,0]]; 
+	        $("#articlesTable").trigger("sorton",[sorting]); 
+	        $(this).addClass("ascending")
+	        return false; 
+		}
+    }); 			
+
 };
 // Trigger sort function when new data is added
 var updateSortTable = function(){
 	$("#articlesTable").trigger("update"); 
+}
+
+
+// Cookie checking
+function setCookie(sortSetting,sortValue,exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires=" + d.toGMTString();
+    document.cookie = sortSetting+"="+sortValue+"; "+expires;
+}
+function getCookie(sortSetting) {
+    var name = sortSetting + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+function checkCookie() {
+    var user=getCookie("username");
+    if (user != "") {
+        alert("Welcome again " + user);
+    } else {
+       user = prompt("Please enter your name:","");
+       if (user != "" && user != null) {
+           setCookie("username", user, 30);
+       }
+    }
 }
 
 // Initiate Functions

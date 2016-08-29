@@ -1,14 +1,14 @@
 extends layout
 
 block content
-    table(id="articlesTable")
+    table(id="articlesTable" class="tablesorter")
         thead
             tr
-                th(id="") Count
                 th(id="") Unpublished articles ( #{articleTotal} )
                 th(id="") Author
-                th(id="") Words
-                th(id="") Submitted
+                th(class="") Words
+                th(id="header-timeago" class="") Submitted
+                th(id="header-rawtime" class="rawtime")
         tbody
     div(id="btnLoadMore" class="start") LOAD MORE
 

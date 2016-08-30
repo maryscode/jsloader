@@ -1,80 +1,192 @@
 /*********************************
-Reset / Global
+ Contents
+
+1. Load Fonts
+2. Reset
+3. Global
+4. Containers
+5. Table
+6. Buttons
+7. Content
+8. Footer
+
+/*********************************
+1. Load Fonts
 **********************************/
-* {
+@font-face {
+  font-family: 'Graphik';
+  src: url('../assets/fonts/Graphik-Medium.otf') format('otf'), 
+       url('../assets/fonts/Graphik-Medium.woff') format('woff'), 
+       url('../assets/fonts/Graphik-Medium.ttf')  format('truetype')
+}
+/*********************************
+2. Reset
+**********************************/
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
 }
 body {
-  font-family: arial;
+  line-height: 1;
 }
-a {
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/*********************************
+3. Global
+**********************************/
+body {
+  font-family: "Graphik", arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  line-height: 180%;
+}
+a,
+a:visited {
   color: #000000;
-  text-decoration: underline;
   transition: all .2s;
+  text-decoration: none;
 }
 a:hover {
   color: #eb413a;
+  text-decoration: underline;
 }
 /*********************************
- Containers
+4. Containers
 **********************************/
+#loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+}
+#loadimageContainer {
+  display: block;
+  overflow: hidden;
+  width: 80px;
+  margin: 200px auto 0;
+}
+#loadimageContainer img {
+  width: 500px;
+  margin-left: -180px;
+  height: auto;
+}
 .page-container {
   margin: 50px auto;
   max-width: 800px;
   padding-bottom: 100px;
 }
 /*********************************
-  Buttons
-**********************************/
-#btnLoadMore {
-	background: #000;
-	color: #fff;
-	font-weight: bold;
-	padding: 20px;
-	cursor: pointer;
-	text-align: center;
-}
-#btnLoadMore:hover{
-	background: #333;
-}
-/*********************************
- Table
+5. Table
 **********************************/
 table {
-  border-collapse: collapse;   
   border-bottom: 1px solid #000;
+}
+tr {
+  background: #c49990;
+  transition: background 1s;  
 }
 thead tr,
 tr.even {
-  background: #e2d2c7
+  background: #efe6dd;
+
+}
+tr.odd {
+  background: #ffffff;
+}
+thead tr th {
+  background: #e2d2c7;
+  transition: all .2s;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.4em;
 }
 thead tr th:hover {
-  background: #ffffff;
-  transition: all .2s;
-  text-decoration: underline;
+  color: #d04140;
 }
-tr {
-  background: #efe6dd
+thead tr th.sorter-false,
+thead tr th.sorter-false:hover {
+  cursor: text;
+  color: #000;
 }
 tr {
   padding: 0;
   margin: 0;
 }
 th, td {
-  border: 2px solid #000;
+  border: 1px solid #000;
   padding: 10px;
   margin: 0;
 }
-#articlesTable .date span {
-  visibility: hidden;
-  display: block;
-  height: 1px;
-  width: 1px; 
+td.author {
+  font-size: 11px;
+  line-height: 12px;
+  color: #666;
 }
 /*********************************
-  Data
+6.  Buttons
+**********************************/
+#btnLoadMore {
+  font-size: 14px;
+  color: #000;
+  background-color: white;
+  border: 2px solid black;
+  margin: 40px auto;
+  padding: 10px 60px;
+  text-align: center;
+  width: 100px;
+  -webkit-box-shadow: 5px 5px 15px #d0b8a4;
+  -moz-box-shadow: 5px 5px 15px #d0b8a4;
+  box-shadow: 5px 5px 15px #d0b8a4;  
+  cursor: pointer;
+  transition: all .2s;  
+}
+#btnLoadMore:hover{
+  color: #eb413a;
+  text-decoration: underline;
+}
+/*********************************
+ 7. Content
 **********************************/
 .thumbnailContainer {
   height: 50px;
@@ -88,18 +200,23 @@ th, td {
   height: 50px;
   width: auto;
 }
-
-
+#articlesTable .date span {
+  visibility: hidden;
+  display: block;
+  height: 1px;
+  width: 1px; 
+}
 /*********************************
- Footer
+8. Footer
 **********************************/
 .footer {
   width: 100%;
   background: #000 none repeat scroll 0 0;
   color: #fff;
   font-size: 10px;
+  line-height: 12px;
   text-align: center;
-  padding: 10px;
+  padding: 15px 0;
 }
 .footer p {
   color: #fff;

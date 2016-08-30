@@ -10,6 +10,15 @@ var load = 10; // Set number of articles to load at a time
 var sortType; // Stores sortby cookie
 var articlesTable = "#articlesTable"
 
+// Page Loader
+var loader = function(){
+	function restripe(){
+		$("#loader").fadeOut(500);
+		setTimeout(updateSortTable, 1000);
+	}
+	setTimeout(restripe, 800);
+}
+
 // Total visible article rows and total extra rows
 var countRows = function(){
 	visibleRows = $('tr.row').length;
@@ -38,7 +47,7 @@ var buildRows = function(data, rowclass){
 
 		var thumbnail;
 		if( data[i].image == "" || data[i].image == null ){
-			thumbnail = "./img/placeholderthumb.gif"; // if no image is available, use placeholder thumbnail
+			thumbnail = "./assets/img/placeholderthumb.gif"; // if no image is available, use placeholder thumbnail
 		}
 		else{
 			thumbnail = data[i].image;
@@ -46,8 +55,8 @@ var buildRows = function(data, rowclass){
 		var tblRow = "<tr class='row " + rowclass + "'>" + 
 		"<td><div class='thumbnailContainer'><a href='" + data[i].url + "' target='_blank'><img src='" +  thumbnail + "' alt='" + data[i].tags[0].name + "'></a></div> <a href='" + 
 		data[i].url + "' target='_blank'>" + data[i].title + "</a></td>" +
-		"<td>" + data[i].profile.first_name + " " + data[i].profile.last_name + "</td>" + 
-		"<td>" + data[i].words + "</td>" + 
+		"<td class='author'>" + data[i].profile.first_name + " " + data[i].profile.last_name + "</td>" + 
+		"<td class='words'>" + data[i].words + "</td>" + 
 		"<td class='date'><span>" + data[i].publish_at + "</span> " +  data[i].time_ago + "</td>" +
 		"</tr>"
 		articleArray.push(tblRow)
@@ -68,27 +77,26 @@ var addArticles = function(a){
 var moreButton = function(){
 	$("#btnLoadMore").click(function(){
 		countRows();
-
 		var maxArticles = articleCount - load; // defines second to last load
-		
+
+		// Note that "extraRows > 0" indicates the second set has been loaded;
+
 		// Hide load more button if on the second to last load
-		if ((visibleRows == maxArticles ) && (extraRows > 0) ) { // if visibleRows = 50 and maxArticles = 50
+		if ((visibleRows == maxArticles ) && (extraRows > 0) ) {
 			$("#btnLoadMore").hide();
 		}	
 
-		// if initial data 
+		// Load more from set 1
 		if ((visibleRows < articleCount) && ( extraRows == 0 )) { // if rows visible is less than file1 total, then keep adding from first file
-			//console.log("more from first set");
 			addArticles(load);
 		}
+		// Load set 2
 		else if ((visibleRows = articleCount) && (extraRows == 0)) { // if  visible and equal to file1 total, then load next data
-			//console.log("load second set");			
-			loadSet2(); // after click: now visibleRows = 40; articleCount = 60;  extraRows = 10 
+			loadSet2();
 
 		}
-		// if second set has been loaded but not more than total articles, show more from json file 2
-		else if ((visibleRows <= articleCount ) && (extraRows > 0) ) { // extraRows > 0 basically means the second set has been loaded
-			//console.log("more from second set");			
+		// if second set has been loaded, show more from json file 2
+		else if ((visibleRows <= articleCount ) && (extraRows > 0) ) { // extraRows > 0 indicates the second set has been loaded
 			addArticles(load); 
 		};
 
@@ -203,6 +211,7 @@ $("#header-date").click(function() {
 
 
 // Initiate Functions
+loader();
 initialLoad(); // Loads JSON data and builds rows
 checkCookie(); // Triggers tablesorter js
 moreButton(); // Button to add more rows

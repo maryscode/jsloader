@@ -1,0 +1,34 @@
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg viewBox="0 0 300 300" id="tampon-container" class="tampon-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="height:auto;margin-left:calc(-50px + 50%);margin-right:auto;perspective-origin:50% 50%;text-align:center;transform-origin:50% 50%;width:50%;fill:none;stroke:rgb(0, 0, 0);">
+			<defs style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:none;stroke:rgb(0, 0, 0);">
+			    <clipPath id="clipPath4" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:none;stroke:rgb(0, 0, 0);">
+			        <path d="M4.2,24.6L4.2,24.6c-1.7-1-2.3-3.3-1.3-5L13.2,2.3c1-1.7,3.3-2.3,5-1.3l0,0c1.7,1,2.3,3.3,1.3,5L9.3,23.3
+			      			C8.2,25,6,25.6,4.2,24.6z" class="st12" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:none;stroke:rgb(0, 0, 0);"/>
+			    </clipPath> 
+			</defs>
+			<path d="M4.2,24.6L4.2,24.6c-1.7-1-2.3-3.3-1.3-5L13.2,2.3c1-1.7,3.3-2.3,5-1.3l0,0c1.7,1,2.3,3.3,1.3,5L9.3,23.3
+			      			C8.2,25,6,25.6,4.2,24.6z" class="st12 stReal" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:rgb(179, 0, 0);stroke:rgb(0, 0, 0);"/> 
+			      	  
+			      			
+			<path d="M4.2,24.7c0,0-5.8,8.2-2.8,10.7c3.1,2.6,6.4-0.2,9.4-0.2c1.8,0,5.4,1.1,1.6,7.1S3.3,54.4,3.3,54.4" class="st13" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:none;stroke:rgb(0, 0, 0);"/>
+
+			<g style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:none;stroke:rgb(0, 0, 0);">
+			    <line y2="5.9" x2="15.3" y1="5" x1="15.8" class="st14 tampon-line" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:5;fill:none;stroke:rgb(0, 0, 0);"/>
+			    <line y2="18.4" x2="7.9" y1="7.8" x1="14.2" class="st15 tampon-line" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:5;fill:none;stroke:rgb(0, 0, 0);"/>
+			     <line y2="20.3" x2="6.8" y1="19.4" x1="7.3" class="st14 tampon-line" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:5;fill:none;stroke:rgb(0, 0, 0);"/>
+			</g>
+			<g style="height:auto;margin-left:auto;margin-right:auto;overflow:visible;overflow-x:visible;overflow-y:visible;padding-left:15px;padding-right:15px;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:970px;z-index:3;clip-path:url(&quot;https://www.shethinx.com/pages/it-works#clipPath4&quot;);fill:none;stroke:rgb(0, 0, 0);" class="container">
+	 
+				<g class="fill" style="background-color:rgb(255, 255, 255);height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:3;fill:none;stroke:rgb(0, 0, 0);">
+			  	 <path d="M300,300V2.5c0,0-0.6-0.1-1.1-0.1c0,0-25.5-2.3-40.5-2.4c-15,0-40.6,2.4-40.6,2.4
+			                        c-12.3,1.1-30.3,1.8-31.9,1.9c-2-0.1-19.7-0.8-32-1.9c0,0-25.8-2.3-40.8-2.4c-15,0-40.8,2.4-40.8,2.4c-12.3,1.1-30.4,1.8-32,1.9
+			                        c-2-0.1-20-0.8-32.2-1.9c0,0-3.1-0.3-8.1-0.7V300H300z" id="waveShape" fill="white" style="height:15px;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform:matrix(1, 0, 0, -1, 0, 0);transform-origin:0px 0px;width:200px;fill:rgb(255, 255, 255);stroke:rgb(0, 0, 0);"/> 
+			  	</g>
+			</g>  
+			 <path d="M4.2,24.6L4.2,24.6c-1.7-1-2.3-3.3-1.3-5L13.2,2.3c1-1.7,3.3-2.3,5-1.3l0,0c1.7,1,2.3,3.3,1.3,5L9.3,23.3
+			      			C8.2,25,6,25.6,4.2,24.6z" class="st12" id="tampon-lines" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:99;fill:none;stroke:rgb(0, 0, 0);"/>
+			<g style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;text-align:center;transform-origin:0px 0px;width:auto;fill:none;stroke:rgb(0, 0, 0);">
+				<line y2="5.9" x2="15.3" y1="5" x1="15.8" class="st14 tampon-line" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:5;fill:none;stroke:rgb(0, 0, 0);"/>
+			    <line y2="18.4" x2="7.9" y1="7.8" x1="14.2" class="st15 tampon-line" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:5;fill:none;stroke:rgb(0, 0, 0);"/>
+			   	<line y2="20.3" x2="6.8" y1="19.4" x1="7.3" class="st14 tampon-line" style="height:auto;overflow:visible;overflow-x:visible;overflow-y:visible;perspective-origin:50% 50%;position:relative;text-align:center;transform-origin:0px 0px;width:auto;z-index:5;fill:none;stroke:rgb(0, 0, 0);"/>
+			</g>
+		</svg>

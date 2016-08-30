@@ -1,10 +1,13 @@
 doctype html
 html
   head
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/style.min.css')
     title News Feed
-  body
-    
+  body(class="loading")
+    div(id="loader")
+      div(id="loadimageContainer")
+        img(src="/assets/img/tampon-container.svg" alt="Loading...")
+
     .page-container
       block content
 

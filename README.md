@@ -26,6 +26,8 @@ Jade is used for the templating engine
 Built with Node.js
 
 # Install
+Package includes all files including required node modules: Express and Moment. Recommended: Nodemon
+
 Set to run on http://localhost:3000
 
 [VIEW DEMO](https://aqueous-harbor-83322.herokuapp.com) on [Heroku](http://herokuapp.com)

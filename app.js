@@ -4,9 +4,7 @@
 
 // dependencies
 var express = require('express');
-var http = require('http');
 var path = require('path');
-var request = require('request');
 var app = express();
 var moment = require('moment');
 moment().format();	

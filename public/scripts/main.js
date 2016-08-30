@@ -20,7 +20,7 @@ var addArticles = function(a){
 	var i = visibleRows + a;
 	var displayArticles = articleArray.slice(visibleRows,i);
 	$("tbody").append(displayArticles);
-	window.setTimeout(updateSortTable, 1000);
+	window.setTimeout(updateSortTable, 500);
 };
 
 // Build HTML article rows from data
@@ -96,16 +96,6 @@ var moreButton = function(){
 	});
 };
 
-
-// Trigger sort function when new data is added
-var updateSortTable = function(){
-	var resort = true, // re-apply the current sort
-	callback = function(){
-          // do something after the updateAll method has completed
-	};	
-	$("#articlesTable").trigger("updateAll",[ resort, callback ]);
-}
-
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -128,10 +118,9 @@ function getCookie(cname) {
     return "";
 }
 function checkCookie() {
-    var setSortCol = getCookie("colSortBy");
-	//alert(setSortCol);
-	sortType = setSortCol;
-	window.setTimeout(sortTable, 2000);
+    var setSortCol = getCookie("sortby");
+    sortType = setSortCol;
+	window.setTimeout(sortTable, 1000);
 }
 
 		
@@ -140,22 +129,78 @@ function checkCookie() {
 var sortTable = function(){
 	$("#articlesTable").tablesorter({		
 		headers: { 
-		//	3: { sorter: false }
+			0: { sorter: false }, // disable title col sort
+			1: { sorter: false } // disable author sort
 		},
-		 textExtraction: {
+		 textExtraction: { // limit sort to data within .date's <span>
 			'.date' : function(node, table, cellIndex){ return $(node).find("span").text(); }
 		}					
-	});		
+	});	
+	callSortCookie();
 };
+// Trigger sort function when new data is added
+var updateSortTable = function(){
+	var resort = true, // re-apply the current sort
+	callback = function(){
+          // do something after the updateAll method has completed
+	};	
+	$("#articlesTable").trigger("updateAll",[ resort, callback ]);
+}
+
+// Sort table based on last sort setting ("sortby" cookie)
+var callSortCookie = function(){
+	var sorting;
+	if (sortType == "words-desc" ){
+		sorting = [[2,1]];
+		$("#header-words").addClass("down");
+	}
+	else if (sortType == "words-asc" ){
+		sorting = [[2,0]];
+		$("#header-words").addClass("up");
+	}
+	else if (sortType == "date-desc" ){
+		sorting = [[3,1]];
+		$("#header-date").addClass("down");
+	}	
+	else if (sortType == "date-asc" ){
+		sorting = [[3,0]];
+		$("#header-date").addClass("up");
+	}		
+	else {
+		sorting = [[null,null]];
+		$("#header-date, #header-words").addClass("down");
+	}
+	$("#articlesTable").trigger('sorton', [ sorting ]);
+}
 
 
-// BUTTONS
-// sort using data-sort attribute value
+// Set sort cookie based on row sorting
+$("#header-words").click(function() { 
+	if($(this).is(".up")){
+		setCookie("sortby","words-desc",365);
+		$(this).removeClass("start").removeClass("up").addClass("down");		
+	}	
+	else{
+		setCookie("sortby","words-asc",365);
+		$(this).removeClass("down").addClass("up");		
+	};
+});
+$("#header-date").click(function() { 
+	if($(this).is(".up")){
+		setCookie("sortby","date-desc",365);
+		$(this).removeClass("start").removeClass("up").addClass("down");		
+	}	
+	else{
+		setCookie("sortby","date-asc",365);
+		$(this).removeClass("down").addClass("up");		
+	};
+});
 		
 
 // Initiate Functions
+checkCookie();
 initialLoad();
 moreButton();
-checkCookie();
+
 //setSortCookie();
 //window.setTimeout(sortTable, 5000);

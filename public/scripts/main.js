@@ -1,15 +1,13 @@
 /////////////////////////////
 ////    client side     ////
 ///////////////////////////
-
-
-
-
 var articleArray = [];
 var visibleRows = 0; // Visible rows in DOM
 var articleCount = 0; // Total number of articles from currently loaded data (updates as you load second json file)
 var extraRows = 0; // Additional rows from second file
 var load = 10; // Set number of articles to load at a time
+var sortColumn;
+var sortOrder;
 
 // Total visible article rows and total extra rows
 var countRows = function(){
@@ -43,12 +41,9 @@ var buildRows = function(data, rowclass){
 		data[i].url + "' target='_blank'>" + data[i].title + "</a></td>" +
 		"<td>" + data[i].profile.first_name + " " + data[i].profile.last_name + "</td>" + 
 		"<td>" + data[i].words + "</td>" + 
-		//"<td>" + data[i].publish_at + "</td>" +
 		"<td class='timeago'>" + data[i].time_ago + "</td>" +
 		"<td class='rawtime'>" + data[i].publish_at + "</td>" +
 		"</tr>"
-		
-	
 		articleArray.push(tblRow)
 	}
 }
@@ -104,51 +99,21 @@ var moreButton = function(){
 	});
 };
 
-// Sort Table; Rows must be fully loaded for function to work
-var sortTable = function(){
-	$("#articlesTable").tablesorter({
-		sortList: [[2,0]],
-		headers: { 
-			// Disable first and second columns (starts at 0)
-			0: { sorter: false }, 
-			1: { sorter: false },
-			3: { sorter: false }
-		}
-	}); 
-	
-	$("#header-timeago").click(function() { 
-        if( $(this).hasClass("ascending") ){
-	        // set sorting column and direction, this will sort on the first and third column the column index starts at zero 
-	        var sorting = [[4,1]]; 
-	        $("#articlesTable").trigger("sorton",[sorting]); 
-	        $(this).removeClass("ascending")
-	        return false;         	
-        }
-        else {
-	        // set sorting column and direction, this will sort on the first and third column the column index starts at zero 
-	        var sorting = [[4,0]]; 
-	        $("#articlesTable").trigger("sorton",[sorting]); 
-	        $(this).addClass("ascending")
-	        return false; 
-		}
-    }); 			
 
-};
 // Trigger sort function when new data is added
 var updateSortTable = function(){
 	$("#articlesTable").trigger("update"); 
 }
 
-
-// Cookie checking
-function setCookie(sortSetting,sortValue,exdays) {
+function setCookie(cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires=" + d.toGMTString();
-    document.cookie = sortSetting+"="+sortValue+"; "+expires;
+    document.cookie = cname+"="+cvalue+"; "+expires;
 }
-function getCookie(sortSetting) {
-    var name = sortSetting + "=";
+
+function getCookie(cname) {
+    var name = cname + "=";
     var ca = document.cookie.split(';');
     for(var i=0; i<ca.length; i++) {
         var c = ca[i];
@@ -162,18 +127,76 @@ function getCookie(sortSetting) {
     return "";
 }
 function checkCookie() {
-    var user=getCookie("username");
+    var user=getCookie("sortcol");
     if (user != "") {
-        alert("Welcome again " + user);
-    } else {
-       user = prompt("Please enter your name:","");
-       if (user != "" && user != null) {
-           setCookie("username", user, 30);
-       }
+        alert("cookie set to: " + user);
+    } 
+    else {
+		alert("no cookie!");
+		window.setTimeout(function(){
+			sortTable(0,0)
+		}, 2000);
     }
 }
+
+var setSortCookie = function(){
+	$("#header-timeago").click(function() { 
+        if( $(this).hasClass("ascending") ){
+	        // set sorting column and direction, this will sort on the first and third column the column index starts at zero 
+	        var sorting = [[4,1]]; 
+	        $("#articlesTable").trigger("sorton",[sorting]); 
+	        $(this).removeClass("ascending");
+	        setCookie("sortcol",4,365);
+	        return false;         	
+        }
+        else {
+	        // set sorting column and direction, this will sort on the first and third column the column index starts at zero 
+	        var sorting = [[4,0]]; 
+	        $("#articlesTable").trigger("sorton",[sorting]); 
+	        $(this).addClass("ascending");
+	        setCookie("sortcol",4,365);
+	        return false; 
+		}
+    }); 			
+	$("#header-words").click(function() { 
+        if( $(this).hasClass("headerSortUp") ){
+	        setCookie("sortcol",2,365);
+	        return false;         	
+        }
+        else if( $(this).hasClass("headerSortDown") ){
+	        setCookie("sortcol",2,365);
+	        return false;         	
+        }
+    });	
+}
+// Sort Table; Rows must be fully loaded for function to work
+var sortTable = function(a, b){
+	if ( a = 0 ){
+		$("#articlesTable").tablesorter({
+			headers: { 
+				0: { sorter: false }, 
+				1: { sorter: false },
+				3: { sorter: false }
+			}			
+		});
+	}
+	else {
+		$("#articlesTable").tablesorter({		
+			sortList: [[a,b]],
+			headers: { 
+				0: { sorter: false }, 
+				1: { sorter: false },
+				3: { sorter: false }
+			}			
+		});
+	}; 
+};
+
+
 
 // Initiate Functions
 initialLoad();
 moreButton();
-window.setTimeout(sortTable, 1000);
+checkCookie();
+setSortCookie();
+//window.setTimeout(sortTable, 5000);

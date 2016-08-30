@@ -17,8 +17,6 @@ a {
 a:hover {
   color: #eb413a;
 }
-
-
 /*********************************
  Containers
 **********************************/
@@ -69,17 +67,11 @@ th, td {
   padding: 10px;
   margin: 0;
 }
-.rawtime {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1px;
-  font-size: 1px;
-  background: red;
-  padding: 0;
-  background: #fff;
-  border-color: #fff;
-  z-index: -1;
+#articlesTable .date span {
+  visibility: hidden;
+  display: block;
+  height: 1px;
+  width: 1px; 
 }
 /*********************************
   Data

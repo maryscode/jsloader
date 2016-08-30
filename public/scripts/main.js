@@ -8,6 +8,7 @@ var articleCount = 0; // Total number of articles from currently loaded data (up
 var extraRows = 0; // Additional rows from second file
 var load = 10; // Set number of articles to load at a time
 var sortType; // Stores sortby cookie
+var articlesTable = "#articlesTable"
 
 // Total visible article rows and total extra rows
 var countRows = function(){
@@ -19,7 +20,6 @@ var countRows = function(){
 var initialLoad = function(){
 	$.get( '/loadarticles', function(data) {
 		buildRows(data,"");
-		addArticles(load);
 	});
 };
 
@@ -27,7 +27,6 @@ var initialLoad = function(){
 var loadSet2 = function(){
 	$.get( '/morearticles', function(data) {
 		buildRows(data, "extra");
-		addArticles(load);
 	});
 	window.setTimeout(updateSortTable, 1000)
 };
@@ -44,7 +43,7 @@ var buildRows = function(data, rowclass){
 		else{
 			thumbnail = data[i].image;
 		}
-		var tblRow = "<tr class='row fadeIn " + rowclass + "'>" + 
+		var tblRow = "<tr class='row " + rowclass + "'>" + 
 		"<td><div class='thumbnailContainer'><a href='" + data[i].url + "' target='_blank'><img src='" +  thumbnail + "' alt='" + data[i].tags[0].name + "'></a></div> <a href='" + 
 		data[i].url + "' target='_blank'>" + data[i].title + "</a></td>" +
 		"<td>" + data[i].profile.first_name + " " + data[i].profile.last_name + "</td>" + 
@@ -53,6 +52,7 @@ var buildRows = function(data, rowclass){
 		"</tr>"
 		articleArray.push(tblRow)
 	}
+	addArticles(load);	
 }
 
 // Add articles to table from array
@@ -122,19 +122,24 @@ function getCookie(cname) {
 function checkCookie() {
     var setSortCol = getCookie("sortby");
     sortType = setSortCol;
-	window.setTimeout(sortTable, 1000);
+	window.setTimeout(sortTable, 500);
 }
 
 // Sort table; Rows must be fully loaded for function to work; Requires jquery.tablesorter.js
 var sortTable = function(){
-	$("#articlesTable").tablesorter({		
+	$(articlesTable).tablesorter({
 		headers: { 
 			0: { sorter: false }, // disable title col sort
 			1: { sorter: false } // disable author sort
 		},
 		 textExtraction: { // limit sort to data within .date's <span>
 			'.date' : function(node, table, cellIndex){ return $(node).find("span").text(); }
-		}					
+		},
+	    // initialize zebra striping of the table
+	    widgets: ["zebra"],
+	    widgetOptions : {
+	      zebra : [ "even", "odd" ]
+	    }		
 	});	
 	callSortCookie();
 };
@@ -142,8 +147,9 @@ var sortTable = function(){
 // Trigger sort function when new data is added
 var updateSortTable = function(){
 	var resort = true, // re-apply the current sort
-	callback = function(){};	
-	$("#articlesTable").trigger("updateAll",[ resort, callback ]);
+	callback = function(){
+	};	
+	$(articlesTable).trigger("updateAll",[ resort, callback ]);
 }
 
 // Sort table based on last sort setting ("sortby" cookie)
@@ -169,7 +175,7 @@ var callSortCookie = function(){
 		sorting = [[null,null]];
 		$("#header-date, #header-words").addClass("down");
 	}
-	$("#articlesTable").trigger('sorton', [ sorting ]);
+	$(articlesTable).trigger("sorton", [ sorting ]);
 }
 
 
@@ -177,24 +183,24 @@ var callSortCookie = function(){
 $("#header-words").click(function() { 
 	if($(this).is(".up")){
 		setCookie("sortby","words-desc",365);
-		$(this).removeClass("start").removeClass("up").addClass("down");		
+		$(this).removeClass("start").removeClass("up").addClass("down");
 	}	
 	else{
 		setCookie("sortby","words-asc",365);
-		$(this).removeClass("down").addClass("up");		
+		$(this).removeClass("down").addClass("up");
 	};
 });
 $("#header-date").click(function() { 
 	if($(this).is(".up")){
 		setCookie("sortby","date-desc",365);
-		$(this).removeClass("start").removeClass("up").addClass("down");		
+		$(this).removeClass("start").removeClass("up").addClass("down");
 	}	
 	else{
 		setCookie("sortby","date-asc",365);
-		$(this).removeClass("down").addClass("up");		
+		$(this).removeClass("down").addClass("up");
 	};
 });
-		
+
 
 // Initiate Functions
 initialLoad(); // Loads JSON data and builds rows

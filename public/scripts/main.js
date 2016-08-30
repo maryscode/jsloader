@@ -1,6 +1,7 @@
 /////////////////////////////
 ////    client side     ////
 ///////////////////////////
+
 var articleArray = [];
 var visibleRows = 0; // Visible rows in DOM
 var articleCount = 0; // Total number of articles from currently loaded data (updates as you load second json file)
@@ -14,13 +15,21 @@ var countRows = function(){
 	extraRows = $('tr.extra').length;	
 }
 
-// Add articles from array
-var addArticles = function(a){
-	countRows();
-	var i = visibleRows + a;
-	var displayArticles = articleArray.slice(visibleRows,i);
-	$("tbody").append(displayArticles);
-	window.setTimeout(updateSortTable, 500);
+// Load the initial set of articles
+var initialLoad = function(){
+	$.get( '/loadarticles', function(data) {
+		buildRows(data,"");
+		addArticles(load);
+	});
+};
+
+// Load second set of articles
+var loadSet2 = function(){
+	$.get( '/morearticles', function(data) {
+		buildRows(data, "extra");
+		addArticles(load);
+	});
+	window.setTimeout(updateSortTable, 1000)
 };
 
 // Build HTML article rows from data
@@ -46,26 +55,16 @@ var buildRows = function(data, rowclass){
 	}
 }
 
-
-
-// Load the initial set of articles
-var initialLoad = function(){
-	$.get( '/loadarticles', function(data) {
-		buildRows(data,"");
-		addArticles(load);
-	});
+// Add articles to table from array
+var addArticles = function(a){
+	countRows();
+	var i = visibleRows + a;
+	var displayArticles = articleArray.slice(visibleRows,i);
+	$("tbody").append(displayArticles);
+	window.setTimeout(updateSortTable, 500);
 };
 
-// Load second set of articles
-var loadSet2 = function(){
-	$.get( '/morearticles', function(data) {
-		buildRows(data, "extra");
-		addArticles(load);
-	});
-	window.setTimeout(updateSortTable, 1000)
-};
-
-
+// Button to load additional articles; load amount can be set in "load" variable at top.
 var moreButton = function(){
 	$("#btnLoadMore").click(function(){
 		countRows();
@@ -96,6 +95,7 @@ var moreButton = function(){
 	});
 };
 
+// Cookie recipes
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -117,15 +117,15 @@ function getCookie(cname) {
     }
     return "";
 }
+
+// Check sortby cookie
 function checkCookie() {
     var setSortCol = getCookie("sortby");
     sortType = setSortCol;
 	window.setTimeout(sortTable, 1000);
 }
 
-		
-
-// Sort Table; Rows must be fully loaded for function to work
+// Sort table; Rows must be fully loaded for function to work; Requires jquery.tablesorter.js
 var sortTable = function(){
 	$("#articlesTable").tablesorter({		
 		headers: { 
@@ -138,12 +138,11 @@ var sortTable = function(){
 	});	
 	callSortCookie();
 };
+
 // Trigger sort function when new data is added
 var updateSortTable = function(){
 	var resort = true, // re-apply the current sort
-	callback = function(){
-          // do something after the updateAll method has completed
-	};	
+	callback = function(){};	
 	$("#articlesTable").trigger("updateAll",[ resort, callback ]);
 }
 
@@ -174,7 +173,7 @@ var callSortCookie = function(){
 }
 
 
-// Set sort cookie based on row sorting
+// Set sort cookie on column click
 $("#header-words").click(function() { 
 	if($(this).is(".up")){
 		setCookie("sortby","words-desc",365);
@@ -198,9 +197,6 @@ $("#header-date").click(function() {
 		
 
 // Initiate Functions
-checkCookie();
-initialLoad();
-moreButton();
-
-//setSortCookie();
-//window.setTimeout(sortTable, 5000);
+initialLoad(); // Loads JSON data and builds rows
+checkCookie(); // Triggers tablesorter js
+moreButton(); // Button to add more rows

@@ -3,11 +3,11 @@
 ///////////////////////////
 
 var articleArray = [];
-var visibleRows = 0; // Visible rows in DOM
+var visibleRows = 0; // Visible article rows in DOM
 var articleCount = 0; // Total number of articles from currently loaded data (updates as you load second json file)
 var extraRows = 0; // Additional rows from second file
 var load = 10; // Set number of articles to load at a time
-var sortType;
+var sortType; // Stores sortby cookie
 
 // Total visible article rows and total extra rows
 var countRows = function(){

@@ -1,13 +1,13 @@
 extends layout
 
 block content
-    table(id="articlesTable" class="tablesorter")
+    table(id="articlesTable")
         thead
             tr
-                th(id="") Unpublished articles ( #{articleTotal} )
-                th(id="") Author
+                th Unpublished articles ( #{articleTotal} )
+                th Author
                 th(id="header-words" class="start") Words
                 th(id="header-date" class="date start") Submitted
         tbody
-    div(id="btnLoadMore" class="start") LOAD MORE
+    div(id="btnLoadMore") LOAD MORE
 
